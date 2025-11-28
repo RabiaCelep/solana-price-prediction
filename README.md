@@ -1,6 +1,6 @@
 # Solana Price Prediction
 
-📘 **Introduction**  
+ **Introduction**  
 Bu proje, Makine Öğrenmesine Giriş dersi için hazırladığım bir ödev çalışmasının sonucu olarak ortaya çıktı.  
 Amacım, Solana blockchain’ine ait tarihsel verileri inceleyerek bir makine öğrenmesi modeli seçmek, modeli eğitmek ve bu veriler üzerinden temel tahminler yapmaktı.  
 
@@ -9,19 +9,19 @@ Bu proje, hem veri hazırlama hem de temel modelleme süreçlerini deneyimlememi
 
 ---
 
-## 📦 Dataset Açıklaması
+##  Dataset Açıklaması
 
 Kullandığım veri seti, Solana blockchain’ine ait hem **zincir içi (on-chain) verileri** hem de **SOL/USD fiyat geçmişini** içeriyor. Veri oldukça geniş kapsamlı olduğundan, zaman serisi analizi ve korelasyon incelemeleri için zengin bir ortam sunuyor.  
 
 ### Veri setinde bulunan başlıca bilgiler:
 
-**🔗 On-chain veriler**  
+** On-chain veriler**  
 - Blok sayıları  
 - İşlemler  
 - Cüzdan hareketleri  
 - Program/contract çağrıları  
 
-**💰 Piyasa verileri**  
+** Piyasa verileri**  
 - Açılış, kapanış, en yüksek ve en düşük SOL/USD fiyatları  
 - İşlem hacmi  
 - Tarih aralığı: 2020 – 2024  
@@ -30,7 +30,7 @@ Kullandığım veri seti, Solana blockchain’ine ait hem **zincir içi (on-chai
 
 ---
 
-## 🎯 Problem Tanımı
+##  Problem Tanımı
 
 Proje boyunca şu sorulara cevap aradım:  
 - SOL fiyatı zaman içinde nasıl değişiyor?  
@@ -40,7 +40,7 @@ Proje boyunca şu sorulara cevap aradım:
 
 ---
 
-## 🔧 Veri Hazırlık Süreci
+##  Veri Hazırlık Süreci
 
 Notebook üzerinde sırasıyla şu adımları gerçekleştirdim:  
 
@@ -54,7 +54,7 @@ Notebook üzerinde sırasıyla şu adımları gerçekleştirdim:
 
 ---
 
-## 📉 Lineer Regresyonun Kısa Özeti
+##  Lineer Regresyonun Kısa Özeti
 
 Lineer regresyon, iki değişken arasında doğrusal bir ilişki olup olmadığını anlamak için kullanılan en temel yöntemlerden biridir.  
 
@@ -74,7 +74,7 @@ Model, tahmin hatalarını minimize etmek için **en küçük kareler yöntemi**
 
 ---
 
-## 🔍 Korelasyon Analizi
+##  Korelasyon Analizi
 Modeli eğitmeden önce değişkenler arasındaki ilişkinin gücünü inceledim.  
 
 **Genel gözlemler:**  
@@ -86,7 +86,7 @@ Bu nedenle **lineer regresyon**, proje için temel bir başlangıç modeli olara
 
 ---
 
-## 🤖 Modelin Eğitilmesi
+##  Modelin Eğitilmesi
 Veri seti eğitim ve test olarak ayrıldı ve lineer regresyon modeli bu veriler üzerinde eğitildi.  
 
 **Ardından yapılan işlemler:**  
@@ -97,7 +97,7 @@ Veri seti eğitim ve test olarak ayrıldı ve lineer regresyon modeli bu veriler
 
 ---
 
-## 📊 Sonuçlar ve Değerlendirme
+##  Sonuçlar ve Değerlendirme
 - Lineer regresyon, kripto fiyatlarını tahmin etmede sınırlı başarı gösterdi  
 - Zaman → fiyat ilişkisi düşük korelasyona sahipti  
 - Hacim gibi değişkenler kullanılsa bile tahmin doğruluğu sınırlı kaldı  
@@ -108,7 +108,7 @@ Lineer regresyon, bu veri seti için güçlü bir model olmasa da, giriş seviye
 
 ---
 
-## ⚖ Lineer Regresyonun Diğer Modellerle Karşılaştırılması
+##  Lineer Regresyonun Diğer Modellerle Karşılaştırılması
 
 | Model                   | Doğruluk        | Eğitim Süresi | Yorumu Kolay mı? | Zaman Serisine Uygunluk |
 |-------------------------|----------------|---------------|-----------------|------------------------|
@@ -118,7 +118,7 @@ Lineer regresyon, bu veri seti için güçlü bir model olmasa da, giriş seviye
 
 ---
 
-## 🌟 Genel Değerlendirme
+##  Genel Değerlendirme
 Bu proje sayesinde:  
 - Veri temizleme  
 - Görselleştirme  
