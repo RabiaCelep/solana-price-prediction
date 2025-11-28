@@ -75,82 +75,58 @@ Model, tahmin hatalarını minimize etmek için **en küçük kareler yöntemi**
 ---
 
 ## 🔍 Korelasyon Analizi
+Modeli eğitmeden önce değişkenler arasındaki ilişkinin gücünü inceledim.  
 
-Modeli eğitmeden önce değişkenler arasındaki ilişkinin gücünü ölçmek için korelasyon katsayılarını inceledim:
+**Genel gözlemler:**  
+- Zaman ile SOL fiyatı arasında belirgin bir ilişki yoktu  
+- Hacim (Volume) ile fiyat arasındaki ilişki zaman kadar zayıf olmasa da düşük seviyedeydi  
+- Kripto para piyasaları yüksek volatiliteye sahip olduğundan doğrusal bir ilişki beklemek çoğu zaman gerçekçi değil  
 
-```python
-df["Volume"].corr(df["Close"])
-df["DayOfYear"].corr(df["Close"])
+Bu nedenle **lineer regresyon**, proje için temel bir başlangıç modeli olarak seçildi.
 
-Genel Gözlemler:
-
--Zaman ile SOL fiyatı arasında belirgin bir ilişki yoktu.
-
--Hacim (Volume) ile fiyat arasındaki ilişki zaman kadar zayıf olmasa da düşük seviyedeydi.
-
--Kripto para piyasaları yüksek volatiliteye sahip olduğundan doğrusal bir ilişki beklemek çoğu zaman gerçekçi değil.
-
--Bu nedenle lineer regresyon, proje için temel bir başlangıç modeli olarak seçildi.
+---
 
 ## 🤖 Modelin Eğitilmesi
-Veri seti eğitim ve test olarak ayrıldı:
+Veri seti eğitim ve test olarak ayrıldı ve lineer regresyon modeli bu veriler üzerinde eğitildi.  
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+**Ardından yapılan işlemler:**  
+- Model katsayıları incelendi  
+- Tahminler alındı  
+- Hata metrikleri (MSE) hesaplandı  
+- R² skoru değerlendirildi  
 
+---
 
-Model eğitildi:
+## 📊 Sonuçlar ve Değerlendirme
+- Lineer regresyon, kripto fiyatlarını tahmin etmede sınırlı başarı gösterdi  
+- Zaman → fiyat ilişkisi düşük korelasyona sahipti  
+- Hacim gibi değişkenler kullanılsa bile tahmin doğruluğu sınırlı kaldı  
+- MSE orta seviyede, R² ise düşük çıktı  
 
-lin_reg = LinearRegression()
-lin_reg.fit(X_train, y_train)
+**Genel Sonuç:**  
+Lineer regresyon, bu veri seti için güçlü bir model olmasa da, giriş seviyesinde keşif ve anlayış için **ideal bir araçtır**.
 
+---
 
-Ardından:
+## ⚖ Lineer Regresyonun Diğer Modellerle Karşılaştırılması
 
--Model katsayıları incelendi
+| Model                   | Doğruluk        | Eğitim Süresi | Yorumu Kolay mı? | Zaman Serisine Uygunluk |
+|-------------------------|----------------|---------------|-----------------|------------------------|
+| Lineer Regresyon        | ❌ Düşük       | ⚡ Çok Hızlı   | ✔ Evet          | ❌ Zayıf               |
+| Random Forest / XGBoost | ✔ Orta–Yüksek  | ⏳ Orta        | ❌ Zor           | ✔ Orta                 |
+| LSTM (Zaman Serisi)     | ⭐ Çok Yüksek  | 🐢 Uzun        | ❌ Zor           | ⭐ En Uygun             |
 
--Tahminler alındı
+---
 
--Hata metrikleri (MSE) hesaplandı
-
--R² skoru değerlendirildi
-
-##📊 Sonuçlar ve Değerlendirme
-Lineer regresyon, kripto fiyatlarını tahmin etmede sınırlı başarı gösterdi.
-
-Zaman → fiyat ilişkisi düşük korelasyona sahipti.
-
-Hacim gibi değişkenler kullanılsa bile tahmin doğruluğu sınırlı kaldı.
-
-MSE orta seviyede, R² ise düşük çıktı.
-
-Genel Sonuç:
-
-Lineer regresyon, bu veri seti için güçlü bir model olmasa da, giriş seviyesinde keşif ve anlayış için ideal bir araçtır.
-
-##⚖ Lineer Regresyonun Diğer Modellerle Karşılaştırılması
-| Model                  | Doğruluk        | Eğitim Süresi | Yorumu Kolay mı? | Zaman Serisine Uygunluk |
-|------------------------|----------------|---------------|-----------------|------------------------|
-| Lineer Regresyon       | ❌ Düşük       | ⚡ Çok Hızlı   | ✔ Evet          | ❌ Zayıf               |
-| Random Forest / XGBoost| ✔ Orta–Yüksek  | ⏳ Orta        | ❌ Zor           | ✔ Orta                 |
-| LSTM (Zaman Serisi)    | ⭐ Çok Yüksek  | 🐢 Uzun        | ❌ Zor           | ⭐ En Uygun             |
-
-
-##🌟 Genel Değerlendirme
-
-Bu proje sayesinde:
-
--Veri temizleme
-
--Görselleştirme
-
--Korelasyon analizi
-
--Regresyon modeli eğitme
-
--Tahmin ve hata analizi
+## 🌟 Genel Değerlendirme
+Bu proje sayesinde:  
+- Veri temizleme  
+- Görselleştirme  
+- Korelasyon analizi  
+- Regresyon modeli eğitme  
+- Tahmin ve hata analizi  
 
 konularında tecrübe kazandım.
 
-Solana blockchain verileri oldukça dalgalı ve karmaşık olduğundan, lineer regresyon sınırlı bir başarı sağladı.
-
-Ancak proje, makine öğrenmesi sürecini anlamak ve daha gelişmiş modellere hazırlanmak için çok iyi bir başlangıç oldu.
+Solana blockchain verileri oldukça **dalgalı ve karmaşık** olduğundan, lineer regresyon sınırlı bir başarı sağladı.  
+Ancak proje, makine öğrenmesi sürecini anlamak ve daha gelişmiş modellere hazırlanmak için **çok iyi bir başlangıç oldu**.
