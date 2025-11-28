@@ -112,9 +112,9 @@ Lineer regresyon, bu veri seti için güçlü bir model olmasa da, giriş seviye
 
 | Model                   | Doğruluk        | Eğitim Süresi | Yorumu Kolay mı? | Zaman Serisine Uygunluk |
 |-------------------------|----------------|---------------|-----------------|------------------------|
-| Lineer Regresyon        | ❌ Düşük       | ⚡ Çok Hızlı   | ✔ Evet          | ❌ Zayıf               |
-| Random Forest / XGBoost | ✔ Orta–Yüksek  | ⏳ Orta        | ❌ Zor           | ✔ Orta                 |
-| LSTM (Zaman Serisi)     | ⭐ Çok Yüksek  | 🐢 Uzun        | ❌ Zor           | ⭐ En Uygun             |
+| Lineer Regresyon        |  Düşük       |  Çok Hızlı   |  Evet          |  Zayıf               |
+| Random Forest / XGBoost |  Orta–Yüksek  |  Orta        |  Zor           |  Orta                 |
+| LSTM (Zaman Serisi)     |  Çok Yüksek  |  Uzun        |  Zor           |  En Uygun             |
 
 ---
 
