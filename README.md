@@ -70,26 +70,27 @@ Model, tahmin hatalarını minimize etmek için **en küçük kareler yöntemi**
 
 ---
 
-## 🔍 Korelasyon Analizi
-Modeli eğitmeden önce değişkenler arasındaki ilişkinin gücünü ölçmek için korelasyon katsayılarını inceledim.  
+🔍 Korelasyon Analizi
 
-Örneğin:  
-```python
+Modeli eğitmeden önce değişkenler arasındaki ilişkinin gücünü ölçmek için korelasyon katsayılarını inceledim:
+
 df["Volume"].corr(df["Close"])
 df["DayOfYear"].corr(df["Close"])
+
+
 Genel Gözlemler:
 
 Zaman ile SOL fiyatı arasında belirgin bir ilişki yoktu.
 
-Hacim (Volume) ilişkisi zaman kadar zayıf olmasa da düşük seviyedeydi.
+Hacim (Volume) ile fiyat arasındaki ilişki, zaman kadar zayıf olmasa da düşük seviyedeydi.
 
 Kripto para piyasaları yüksek volatiliteye sahip olduğundan doğrusal bir ilişki beklemek çoğu zaman gerçekçi değil.
 
-Bu nedenle lineer regresyon bu proje için temel bir başlangıç modeli oldu.
+Bu nedenle lineer regresyon, proje için temel bir başlangıç modeli olarak seçildi.
 
 🤖 Modelin Eğitilmesi
 
-Önce veri seti eğitim ve test olarak ayrıldı:
+Veri seti eğitim ve test olarak ayrıldı:
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
@@ -112,24 +113,24 @@ R² skoru değerlendirildi
 
 📊 Sonuçlar ve Değerlendirme
 
-Lineer regresyonun kripto fiyatlarını tahmin etmekte zayıf kaldığı görüldü.
+Lineer regresyon, kripto fiyatlarını tahmin etmede sınırlı başarı gösterdi.
 
-Zaman → fiyat ilişkisi oldukça düşük korelasyona sahipti.
+Zaman → fiyat ilişkisi düşük korelasyona sahipti.
 
 Hacim gibi değişkenler kullanılsa bile tahmin doğruluğu sınırlı kaldı.
 
 MSE orta seviyede, R² ise düşük çıktı.
 
 Genel Sonuç:
-Lineer regresyon, bu veri seti için yeterince güçlü bir model değil; ancak giriş seviyesinde keşif yapmak için ideal bir araç.
+Lineer regresyon, bu veri seti için güçlü bir model olmasa da, giriş seviyesinde keşif ve anlayış için ideal bir araç oldu.
 
 ⚖ Lineer Regresyonun Diğer Modellerle Karşılaştırılması
 Model	Doğruluk	Eğitim Süresi	Yorumu Kolay mı?	Zaman Serisine Uygunluk
 Lineer Regresyon	❌ Düşük	⚡ Çok Hızlı	✔ Evet	❌ Zayıf
 Random Forest / XGBoost	✔ Orta–Yüksek	⏳ Orta	❌ Zor	✔ Orta
 LSTM (Zaman Serisi)	⭐ Çok Yüksek	🐢 Uzun	❌ Zor	⭐ En Uygun
+🌟 Genel Değerlendirme
 
-Genel Değerlendirme:
 Bu proje sayesinde:
 
 Veri temizleme
@@ -142,5 +143,7 @@ Regresyon modeli eğitme
 
 Tahmin ve hata analizi
 
-konularında tecrübe kazandım. Solana blockchain verileri oldukça dalgalı ve karmaşık olduğu için lineer regresyon sınırlı bir başarı sağladı.
-Ancak proje, makine öğrenmesi sürecini anlamam ve daha gelişmiş modellere hazırlanabilmem için çok iyi bir başlangıç oldu.
+konularında tecrübe kazandım.
+
+Solana blockchain verileri oldukça dalgalı ve karmaşık olduğundan, lineer regresyon sınırlı bir başarı sağladı.
+Ancak proje, makine öğrenmesi sürecini anlamak ve daha gelişmiş modellere hazırlanmak için çok iyi bir başlangıç oldu.
