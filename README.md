@@ -118,7 +118,7 @@ Elde edilen temel performans ölçümleri:
 - **R²:** Modelin varyansı açıklama oranı  
 
 R² skorunun düşük çıkması, fiyatların doğrusal bir modelle iyi açıklanamadığını gösteriyor.  
-Kripto piyasasının yüksek volatilitesi düşünüldüğünde bu sonuç beklenen bir durum.
+Kripto piyasasının yüksek değişkenliği düşünüldüğünde bu sonuç beklenen bir durum.
 
 ---
 
