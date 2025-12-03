@@ -1,6 +1,6 @@
 #  Solana Price Prediction – Lineer Regresyon ile Fiyat Tahmini
 
-Bu proje, Makine Öğrenmesine Giriş dersi için hazırladığım kapsamlı bir çalışma olup Solana’nın (SOL) geçmiş fiyat verilerini analiz ederek temel bir tahmin modeli oluşturmayı amaçlıyor. Amacım; veri hazırlama, özellik mühendisliği, model eğitimi ve değerlendirme süreçlerini baştan sona deneyimlemek ve başlangıç seviyesi bir makine öğrenmesi modeliyle kripto piyasasında öngörü üretmenin ne kadar mümkün olduğunu görmekti.
+Bu proje, Makine Öğrenmesine Giriş dersi için hazırladığım kapsamlı bir çalışma olup Solana’nın (SOL) geçmiş fiyat verilerini analiz ederek temel bir tahmin modeli oluşturmayı amaçlıyor. Amacım; veri hazırlama, özellik mühendisliği, model eğitimi ve değerlendirme süreçlerini baştan sona deneyimlemek ve başlangıç seviyesi bir makine öğrenmesi modeliyle kripto piyasası hakkında bir fikir üretmenin ne kadar mümkün olduğunu görmekti.
 
 ---
 
@@ -56,7 +56,7 @@ Projede izlediğim veri hazırlama adımları:
 Model giriş verilerini (**features**) belirledim. Bu değişkenleri seçme nedenim:
 
 - **market_cap ve total_volume:** fiyatla ilişkisi literatürde sıkça incelenen metrikler.
-- **DayOfYear, Month, Year, WeekOfYear:** zaman bazlı döngüsellik olup olmadığını test etmek için.
+- **DayOfYear, Month, Year, WeekOfYear:** zaman bazlı tekrar olup olmadığını test etmek için.
 
 ---
 
@@ -68,7 +68,7 @@ Bu projede başlangıç modeli olarak lineer regresyon kullandım çünkü:
 - Katsayılar yorumlanabilir, yani modelin nasıl karar verdiğini görebiliyoruz.
 - Veri setinin ilişkilerini temel düzeyde keşfetmek için ideal bir giriş modeli.
 
-Tabii ki kripto gibi volatil bir piyasada çok yüksek doğruluk beklemek gerçekçi değil, ancak amaç ilk adımı oluşturmak ve modelleme mantığını oturtmaktı.
+Tabii ki kripto gibi değişken  bir piyasada çok yüksek doğruluk beklemek gerçekçi değil, ancak amaç ilk adımı oluşturmak ve modelleme mantığını oturtmaktı.
 
 ---
 
@@ -76,12 +76,12 @@ Tabii ki kripto gibi volatil bir piyasada çok yüksek doğruluk beklemek gerçe
 
 Modeli eğitmek için veriyi **%80 eğitim – %20 test** olacak şekilde ayırdım. Ardından aşağıdaki adımları takip ettim:
 
-- Lineer regresyon modeli kuruldu.
-- Eğitim verisiyle model fit edildi.
-- Test verisi üzerinden tahminler alındı.
-- MSE ve R² metrikleri hesaplandı.
+- Lineer regresyon modeli kurdum.
+- Eğitim verisiyle modeli uygun hale getirdim.
+- Test verisi üzerinden tahminler aldım.
+- MSE ve R² metrikleri hesapladım.
 
-Özetle model şu parametrelerle eğitildi:
+Özetle model şu parametrelerle eğittim:
 
 - **Model:** LinearRegression()
 - **Hedef:** price
