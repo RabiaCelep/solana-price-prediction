@@ -1,132 +1,157 @@
-# Solana Price Prediction
+#  Solana Price Prediction – Lineer Regresyon ile Fiyat Tahmini
 
- **Introduction**  
-Bu proje, Makine Öğrenmesine Giriş dersi için hazırladığım bir ödev çalışmasının sonucu olarak ortaya çıktı.  
-Amacım, Solana blockchain’ine ait tarihsel verileri inceleyerek bir makine öğrenmesi modeli seçmek, modeli eğitmek ve bu veriler üzerinden temel tahminler yapmaktı.  
+Bu proje, Makine Öğrenmesine Giriş dersi için hazırladığım kapsamlı bir çalışma olup Solana’nın (SOL) geçmiş fiyat verilerini analiz ederek temel bir tahmin modeli oluşturmayı amaçlıyor. Amacım; veri hazırlama, özellik mühendisliği, model eğitimi ve değerlendirme süreçlerini baştan sona deneyimlemek ve başlangıç seviyesi bir makine öğrenmesi modeliyle kripto piyasasında öngörü üretmenin ne kadar mümkün olduğunu görmekti.
 
-İlk adım olarak **Lineer Regresyon** yöntemini tercih ettim. Çünkü lineer regresyon, değişkenler arasındaki doğrusal ilişkileri anlamak için kullanılan en temel yöntemlerden biridir ve kripto fiyat tahminleri gibi karmaşık bir konuda bile işe başlangıç için oldukça iyi bir zemin sağlıyor.  
-Bu proje, hem veri hazırlama hem de temel modelleme süreçlerini deneyimlememi sağladı.
+---
+
+##  Projenin Amacı
+
+Kripto para piyasaları çok değişken olduğu için fiyat tahmini oldukça zor bir problem. Bu projede şu sorulara cevap aradım:
+
+- **SOL fiyatı zaman içinde nasıl değişiyor?**
+- **Zaman, hacim ve piyasa değeri gibi metrikler fiyata ne kadar etki ediyor?**
+- **Lineer regresyon gibi temel bir model bu karmaşık yapıda anlamlı tahminler üretebilir mi?**
+- **Farklı model türleriyle kıyaslandığında lineer regresyonun avantajı ve sınırları neler?**
+
+Bu sorulara cevap verebilmek için Solana’nın hem zincir içi hem de piyasa verilerinden oluşan geniş bir veri seti üzerinde çalıştım.
 
 ---
 
 ##  Dataset Açıklaması
 
-Kullandığım veri seti, Solana blockchain’ine ait hem **zincir içi (on-chain) verileri** hem de **SOL/USD fiyat geçmişini** içeriyor. Veri oldukça geniş kapsamlı olduğundan, zaman serisi analizi ve korelasyon incelemeleri için zengin bir ortam sunuyor.  
+Projede kullanılan veri seti SOL/USD geçmiş fiyatları ve piyasa verilerini içeriyor. Veri setinde bulunan başlıca alanlar:
 
-### Veri setinde bulunan başlıca bilgiler:
+###  Piyasa verileri
+- Açılış – kapanış fiyatları
+- Günün en yüksek ve en düşük fiyatları
+- Toplam işlem hacmi (total_volume)
+- Piyasa değeri (market_cap)
+- Tarih bilgisi (snapped_at)
 
-** On-chain veriler**  
-- Blok sayıları  
-- İşlemler  
-- Cüzdan hareketleri  
-- Program/contract çağrıları  
+###  Tarih yapısından türetilen yeni özellikler
 
-** Piyasa verileri**  
-- Açılış, kapanış, en yüksek ve en düşük SOL/USD fiyatları  
-- İşlem hacmi  
-- Tarih aralığı: 2020 – 2024  
+Veriyi daha zengin hale getirmek için zaman bilgisinden yeni kolonlar ürettim:
 
-> Bazı metrikleri kullanarak SOL fiyatı lineer olarak tahmin edilebilir mi?
+| Yeni Kolon   | Açıklama           |
+|--------------|--------------------|
+| DayOfYear    | Yılın kaçıncı günü |
+| Month        | Ay bilgisi         |
+| Year         | Yıl                |
+| WeekOfYear   | ISO haftası        |
 
----
-
-##  Problem Tanımı
-
-Proje boyunca şu sorulara cevap aradım:  
-- SOL fiyatı zaman içinde nasıl değişiyor?  
-- Hangi özellikler (hacim, zaman vb.) fiyatla ilişkili olabilir?  
-- Lineer regresyon fiyat tahmini için ne kadar başarılı?  
-- Korelasyon analizi bize ne söylüyor?  
+Bu dönemsel değişkenlerin fiyatı etkileyip etkilemediğini gözlemlemek istedim.
 
 ---
 
-##  Veri Hazırlık Süreci
+##  Veri Hazırlama Süreci
 
-Notebook üzerinde sırasıyla şu adımları gerçekleştirdim:  
+Projede izlediğim veri hazırlama adımları:
 
-- Veri setini yükledim.  
-- Eksik verileri inceledim ve gerekli temizlikleri yaptım.  
-- Tarih kolonlarını uygun zaman formatına dönüştürdüm.  
-- Ek özellikler üretmek için `DayOfYear` gibi yeni kolonlar oluşturdum.  
-- Hedef değişken olarak **Close (kapanış fiyatı)** seçildi.  
-- Zaman, hacim gibi metrikler giriş değişkeni (X) olarak belirlendi.  
-- Scatter plot’lar ile değişkenlerin birbirleriyle ilişkilerini görselleştirdim.  
+- CSV dosyasını yükledim.
+- Tarih kolonunu datetime formatına çevirdim.
+- Veri setinden gerekli tarihsel özellikleri türettim.
+- Bazı kolonlarda eksik değer olup olmadığını kontrol ettim.
+- Hedef değişken olarak **price** kolonunu seçtim.
 
----
+Model giriş verilerini (**features**) belirledim. Bu değişkenleri seçme nedenim:
 
-##  Lineer Regresyonun Kısa Özeti
-
-Lineer regresyon, iki değişken arasında doğrusal bir ilişki olup olmadığını anlamak için kullanılan en temel yöntemlerden biridir.  
-
-Matematiksel formu:  
-
-Y = a + bX
-
-less
-Kodu kopyala
-
-- **X**: açıklayıcı değişken  
-- **Y**: tahmin edilen değişken  
-- **b**: eğim  
-- **a**: kesişim  
-
-Model, tahmin hatalarını minimize etmek için **en küçük kareler yöntemi** kullanılarak eğitilir.
+- **market_cap ve total_volume:** fiyatla ilişkisi literatürde sıkça incelenen metrikler.
+- **DayOfYear, Month, Year, WeekOfYear:** zaman bazlı döngüsellik olup olmadığını test etmek için.
 
 ---
 
-##  Korelasyon Analizi
-Modeli eğitmeden önce değişkenler arasındaki ilişkinin gücünü inceledim.  
+##  Neden Lineer Regresyon?
 
-**Genel gözlemler:**  
-- Zaman ile SOL fiyatı arasında belirgin bir ilişki yoktu  
-- Hacim (Volume) ile fiyat arasındaki ilişki zaman kadar zayıf olmasa da düşük seviyedeydi  
-- Kripto para piyasaları yüksek volatiliteye sahip olduğundan doğrusal bir ilişki beklemek çoğu zaman gerçekçi değil  
+Bu projede başlangıç modeli olarak lineer regresyon kullandım çünkü:
 
-Bu nedenle **lineer regresyon**, proje için temel bir başlangıç modeli olarak seçildi.
+- Uygulaması hızlı ve anlaşılması kolay.
+- Katsayılar yorumlanabilir, yani modelin nasıl karar verdiğini görebiliyoruz.
+- Veri setinin ilişkilerini temel düzeyde keşfetmek için ideal bir giriş modeli.
+
+Tabii ki kripto gibi volatil bir piyasada çok yüksek doğruluk beklemek gerçekçi değil, ancak amaç ilk adımı oluşturmak ve modelleme mantığını oturtmaktı.
 
 ---
 
 ##  Modelin Eğitilmesi
-Veri seti eğitim ve test olarak ayrıldı ve lineer regresyon modeli bu veriler üzerinde eğitildi.  
 
-**Ardından yapılan işlemler:**  
-- Model katsayıları incelendi  
-- Tahminler alındı  
-- Hata metrikleri (MSE) hesaplandı  
-- R² skoru değerlendirildi  
+Modeli eğitmek için veriyi **%80 eğitim – %20 test** olacak şekilde ayırdım. Ardından aşağıdaki adımları takip ettim:
 
----
+- Lineer regresyon modeli kuruldu.
+- Eğitim verisiyle model fit edildi.
+- Test verisi üzerinden tahminler alındı.
+- MSE ve R² metrikleri hesaplandı.
 
-##  Sonuçlar ve Değerlendirme
-- Lineer regresyon, kripto fiyatlarını tahmin etmede sınırlı başarı gösterdi  
-- Zaman → fiyat ilişkisi düşük korelasyona sahipti  
-- Hacim gibi değişkenler kullanılsa bile tahmin doğruluğu sınırlı kaldı  
-- MSE orta seviyede, R² ise düşük çıktı  
+Özetle model şu parametrelerle eğitildi:
 
-**Genel Sonuç:**  
-Lineer regresyon, bu veri seti için güçlü bir model olmasa da, giriş seviyesinde keşif ve anlayış için **ideal bir araçtır**.
+- **Model:** LinearRegression()
+- **Hedef:** price
+- **Feature sayısı:** 6
+- **Veri dönemi:** 2020–2024
 
 ---
 
-##  Lineer Regresyonun Diğer Modellerle Karşılaştırılması
+##  Görselleştirmeler
 
-| Model                   | Doğruluk        | Eğitim Süresi | Yorumu Kolay mı? | Zaman Serisine Uygunluk |
-|-------------------------|----------------|---------------|-----------------|------------------------|
-| Lineer Regresyon        |  Düşük       |  Çok Hızlı   |  Evet          |  Zayıf               |
-| Random Forest / XGBoost |  Orta–Yüksek  |  Orta        |  Zor           |  Orta                 |
-| LSTM (Zaman Serisi)     |  Çok Yüksek  |  Uzun        |  Zor           |  En Uygun             |
+### 1️ Gerçek vs Tahmin Scatter Plot
+
+Bu grafik, model tahminlerinin gerçek fiyatlarla ne kadar uyumlu olduğunu gösteriyor.  
+Dağılımın dağınık olması, doğrusal ilişkinin zayıflığını destekliyor.
+
+### 2️ Katsayı Grafiği (Feature Importance)
+
+Tüm feature’ları normalize ettikten sonra katsayıları çizerek hangi değişkenin modele daha fazla katkı sağladığını görselleştirdim.
+
+Bu analiz sayesinde:
+
+- **market_cap en etkili değişkenlerden biri,**
+- **zaman bazlı değişkenlerin etkisi ise oldukça sınırlı**
+
+olduğu ortaya çıktı.
 
 ---
 
-##  Genel Değerlendirme
-Bu proje sayesinde:  
-- Veri temizleme  
-- Görselleştirme  
-- Korelasyon analizi  
-- Regresyon modeli eğitme  
-- Tahmin ve hata analizi  
+##  Model Performansı
 
-konularında tecrübe kazandım.
+Elde edilen temel performans ölçümleri:
 
-Solana blockchain verileri oldukça **dalgalı ve karmaşık** olduğundan, lineer regresyon sınırlı bir başarı sağladı.  
-Ancak proje, makine öğrenmesi sürecini anlamak ve daha gelişmiş modellere hazırlanmak için **çok iyi bir başlangıç oldu**.
+- **MSE:** Ortalama kare hata  
+- **R²:** Modelin varyansı açıklama oranı  
+
+R² skorunun düşük çıkması, fiyatların doğrusal bir modelle iyi açıklanamadığını gösteriyor.  
+Kripto piyasasının yüksek volatilitesi düşünüldüğünde bu sonuç beklenen bir durum.
+
+---
+
+##  Lineer Regresyonu Diğer Modellerle Karşılaştırma
+
+Aşağıdaki tablo, lineer regresyonun diğer popüler modellerle karşılaştırmasını gösteriyor:
+
+| Model            | Doğruluk | Eğitim Süresi | Yorumlanabilirlik | Zaman Serisi Uygunluğu | Açıklama |
+|------------------|----------|---------------|--------------------|-------------------------|----------|
+| Lineer Regresyon | Düşük    | Çok Hızlı     | Kolay              | Zayıf                   | Temel model. Karmaşık piyasalarda doğrusal ilişki zayıf kalıyor. |
+| Random Forest    | Orta–Yüksek | Orta        | Orta              | Orta                    | Doğrusal olmayan ilişkileri yakalar, ama yorumlaması daha zor. |
+| XGBoost          | Yüksek   | Orta          | Zor                | Orta                    | Karmaşık veri ilişkilerini daha iyi modeller, genelde daha iyi tahmin verir. |
+| LSTM (RNN)       | Çok Yüksek | Uzun        | Zor               | En Uygun                | Zaman serisi bağımlılıklarını öğrenebilir, kripto gibi dalgalı verilerde oldukça etkili. |
+
+Bu tabloyu hazırlamamın sebebi, projenin yalnızca lineer regresyonla sınırlı olmadığını, model seçerken karşılaştırma yapmayı öğrendiğimi göstermek içindir.
+
+---
+
+##  Sonuç ve Değerlendirme
+
+Bu proje boyunca:
+
+- Veri setini tanıma  
+- Veri temizleme ve özellik mühendisliği  
+- Zaman bazlı özellik üretme  
+- Temel bir modeli eğitme  
+- Performans analizleri  
+- Görselleştirme teknikleri  
+- Model karşılaştırma mantığı  
+
+konularında önemli deneyim kazandım.
+
+Lineer regresyon, bu veri seti için yüksek performans göstermese de **neden yüksek performans göstermediğini anlamak**, bu projenin en değerli kısmı oldu.  
+Kripto piyasası doğrusal olmayan, dalgalı ve karmaşık bir yapıya sahip. Bu yüzden daha gelişmiş zaman serisi modellerine geçmek ilerideki en mantıklı adım.
+
+---
