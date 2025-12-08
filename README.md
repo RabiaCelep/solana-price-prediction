@@ -167,7 +167,9 @@ Eğitim süresi Random Forest ile benzer düzeyde olmakla birlikte daha agresif 
 Yorumlanabilirlik düşük olsa da performans açısından oldukça güçlüdür.
 
 ---
-
+![Lineer Regresyon](grafik2.png)
+![Random Forest](grafik3.png)
+![XGBoost](grafik4.png)
 
 ---
 
