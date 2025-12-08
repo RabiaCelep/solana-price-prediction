@@ -122,18 +122,52 @@ Kripto piyasasının yüksek değişkenliği düşünüldüğünde bu sonuç bek
 
 ---
 
+
 ##  Lineer Regresyonu Diğer Modellerle Karşılaştırma
 
-Aşağıdaki tablo, lineer regresyonun diğer popüler modellerle karşılaştırmasını gösteriyor:
+Aşağıdaki tablo, farklı regresyon modellerinin performans ve özellik karşılaştırmasını göstermektedir:
 
-| Model            | Doğruluk | Eğitim Süresi | Yorumlanabilirlik | Zaman Serisi Uygunluğu | Açıklama |
-|------------------|----------|---------------|--------------------|-------------------------|----------|
-| Lineer Regresyon | Düşük    | Çok Hızlı     | Kolay              | Zayıf                   | Temel model. Karmaşık piyasalarda doğrusal ilişki zayıf kalıyor. |
-| Random Forest    | Orta–Yüksek | Orta        | Orta              | Orta                    | Doğrusal olmayan ilişkileri yakalar, ama yorumlaması daha zor. |
-| XGBoost          | Yüksek   | Orta          | Zor                | Orta                    | Karmaşık veri ilişkilerini daha iyi modeller, genelde daha iyi tahmin verir. |
-| LSTM (RNN)       | Çok Yüksek | Uzun        | Zor               | En Uygun                | Zaman serisi bağımlılıklarını öğrenebilir, kripto gibi dalgalı verilerde oldukça etkili. |
+| Model              | Doğruluk        | Eğitim Süresi | Yorumlanabilirlik | Zaman Serisi Uygunluğu | Açıklama                                                                 | MSE      | R²    |
+|--------------------|-----------------|---------------|--------------------|--------------------------|---------------------------------------------------------------------------|----------|-------|
+| Lineer Regresyon   | Düşük           | Çok Hızlı      | Kolay             | Zayıf                    | Doğrusal ilişkilerle sınırlı, piyasa verilerinde düşük performans verir. | **275.57** | **0.95** |
+| Random Forest      | Orta–Yüksek     | Orta          | Orta              | Orta                     | Doğrusal olmayan ilişkileri yakalar, daha kararlı bir modeldir.          | **3.96**   | **1.00** |
+| XGBoost            | Yüksek          | Orta          | Zor               | Orta                     | Karmaşık ilişkileri iyi modeller, genelde en iyi tahmini verir.          | **12.29**  | **1.00** |
+| LSTM (RNN)         | Çok Yüksek      | Uzun          | Zor               | En Uygun                 | Zaman serisi bağımlılıklarını öğrenir, kriptoda en etkili modellerdendir.| —        | —     |
+
 
 Bu tabloyu hazırlamamın sebebi, projenin yalnızca lineer regresyonla sınırlı olmadığını, model seçerken karşılaştırma yapmayı öğrendiğimi göstermek içindir.
+##  Modellerin Sözel Karşılaştırması
+
+Her modelin performansı; **MSE**, **R²**, eğitim süresi, yorumlanabilirlik ve zaman serisi verisine uygunluk açısından değerlendirilmiştir.
+
+---
+
+### ** Lineer Regresyon**
+
+Lineer regresyon en hızlı ve en kolay yorumlanabilir model olmasına rağmen, karmaşık piyasa ilişkilerini yakalama konusunda zayıf kalmıştır.  
+**MSE = 275.57** ve **R² = 0.95** değerleri, modelin temel eğilimleri yakalasa da doğrusal olmayan ilişkilere uyum sağlayamadığını göstermektedir.  
+Bu nedenle, bu model iyi bir başlangıç noktası olsa da kripto piyasası gibi volatil veri yapılarında tek başına yeterli değildir.
+
+---
+
+### ** Random Forest**
+
+Random Forest, doğrusal olmayan ilişkileri öğrenebilmesi sayesinde doğruluğu ciddi ölçüde artırmıştır.  
+**MSE’nin 3.96 gibi çok düşük bir seviyeye düşmesi** ve **R²’nin 1.00 çıkması**, modelin veri yapısını çok iyi öğrendiğini göstermektedir.  
+Eğitim süresi orta seviyede olup yorumlanabilirlik tamamen kaybolmasa da sınırlıdır.  
+Zaman serisi için özel olarak tasarlanmamış olsa da oldukça başarılı bir sonuç vermiştir.
+
+---
+
+### ** XGBoost**
+
+XGBoost performans açısından en güçlü modellerden biridir ve sonuçlar bunu doğrulamaktadır.  
+**MSE = 12.29**, **R² = 1.00** değerleri, modelin karmaşık ilişkileri etkili bir şekilde yakalayabildiğini göstermektedir.  
+Eğitim süresi Random Forest ile benzer düzeyde olmakla birlikte daha agresif öğrenme stratejileri sayesinde genelde daha kararlı tahminler verir.  
+Yorumlanabilirlik düşük olsa da performans açısından oldukça güçlüdür.
+
+---
+
 
 ---
 
